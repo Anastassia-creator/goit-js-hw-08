@@ -18,18 +18,11 @@ const galleryLi = galleryItems.map(({preview, original, description}) =>
 
 gallery.insertAdjacentHTML("beforeend", galleryLi);
 
-gallery.addEventListener("click", onClick)
-
-function onClick (evt) {
-    evt.preventDefault();
-    const dataPreview = evt.target.dataset.source;
-    const img = evt.target.alt;
-    const instance = basicLightbox.create(`
-    <div>
-    <img src="${dataPreview}" alt=""${img}/>
-    </div>
-    `) 
-    instance.show()
-}
+const lightboxModal = new SimpleLightbox('.gallery a',
+{
+    caption:true,
+    captionsData:'alt',
+    captionDelay:250,
+});
 console.log(galleryItems)
 
