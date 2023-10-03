@@ -1,47 +1,45 @@
 import throttle from 'lodash.throttle';
 
+const STORAGE_KEY = 'feedback-form-state';
+
 const form = document.querySelector('.feedback-form');
-const inputEmail = form.querySelector('input[name="email"]');
-const inputMassage = form.querySelector('textarea[name="message"]');
-const feedbackForm = 'feedback-form-state';
+
+const {email,message} = form.elements;
+let formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
 form.addEventListener('input', throttle(saveFormData, 500));
 form.addEventListener('submit', onSubmit);
 
+dataLocalStorage();
+
+
 function saveFormData(e) {
-    const formData = {
-        email: inputEmail.value,
-        message: inputMassage.value,
-    }
-    localStorage.setItem(feedbackForm, JSON.stringify(formData));
+    formData[e.target.name] = e.target.value;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
 }
 
 function onSubmit(e) {
     e.preventDefault();
-    inputEmail.value = '';
-    inputMassage.value = '';
-    localStorage.removeItem('feedbackForm');
-    const formSubmit = {
-            email: inputEmail.value,
-            massage: inputMassage.value,
-        }
-    if (inputEmail === "" || inputMassage === ""){
+    
+    
+    
+    if (email.value === "" || message.value === ""){
         alert("Всі поля повинні бути заповнені");
         return;
-      } else {
-        console.log(formSubmit);
+      } 
+        console.log(formData);
+        localStorage.removeItem('feedbackForm');
         form.reset();
-      }
-
-    dataLocalStorage();
+        formData = {};
+        
 }
 
 function dataLocalStorage () {
-    const storedData = localStorage.getItem(localStorage.getItem(feedbackForm));
+    const storedData = localStorage.getItem(STORAGE_KEY);
     if (storedData !== null) {
         const formData = JSON.parse(storedData);
-        inputEmail.value = formData.email;
-        inputMassage.value = formData.message; 
+        email.value = formData.email || "";
+        imessage.value = formData.message || ""; 
     }
 }
 // console.log(formData);
