@@ -13,7 +13,6 @@ function saveFormData(e) {
         email: inputEmail.value,
         message: inputMassage.value,
     }
-    
     localStorage.setItem(feedbackForm, JSON.stringify(formData));
 }
 
@@ -22,6 +21,19 @@ function onSubmit(e) {
     inputEmail.value = '';
     inputMassage.value = '';
     localStorage.removeItem('feedbackForm');
+    const formSubmit = {
+            email: inputEmail.value,
+            massage: inputMassage.value,
+        }
+    if (inputEmail === "" || inputMassage === ""){
+        alert("Всі поля повинні бути заповнені");
+        return;
+      } else {
+        console.log(formSubmit);
+        form.reset();
+      }
+
+    dataLocalStorage();
 }
 
 function dataLocalStorage () {
